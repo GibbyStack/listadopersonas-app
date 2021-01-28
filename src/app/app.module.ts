@@ -3,13 +3,18 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-
-import { PersonaComponent } from './personas/persona/persona.component';
-import { FormularioComponent } from './personas/formulario/formulario.component';
 import { PersonasService } from './personas.service';
 import { LogginService } from './loginService.service';
+import { DataService } from './data.service';
+import { PersonaComponent } from './personas/persona/persona.component';
+import { FormularioComponent } from './personas/formulario/formulario.component';
 import { PersonasComponent } from './personas/personas.component';
 import { ErrorComponent } from './error/error.component';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth'
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -17,14 +22,18 @@ import { ErrorComponent } from './error/error.component';
     PersonaComponent,
     FormularioComponent,
     PersonasComponent,
-    ErrorComponent
+    ErrorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [PersonasService, LogginService],
+  providers: [PersonasService, LogginService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
