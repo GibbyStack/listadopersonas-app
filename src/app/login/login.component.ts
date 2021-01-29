@@ -1,7 +1,6 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/auth'
-import { Router } from '@angular/router';
+import { LoginServices } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +11,7 @@ export class LoginComponent implements OnInit {
 
   token: string;
 
-  constructor(private fireAuth: AngularFireAuth, private ngZone: NgZone, private router: Router) { }
+  constructor(private loginService: LoginServices) { }
 
   ngOnInit(): void {
     // this.fireAuth.user.subscribe(
@@ -29,19 +28,8 @@ export class LoginComponent implements OnInit {
   login(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    this.fireAuth.signInWithEmailAndPassword(email, password)
-    .then(
-      response => {
-        this.fireAuth.currentUser.then(
-          user => {
-            user.getIdToken().then(
-              token => {
-                this.token = token;
-              }
-            )
-          }
-        )
-      }
-    )
+    this.loginService.login(email, password);
   }
+
+
 }

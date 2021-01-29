@@ -15,6 +15,8 @@ import { LoginComponent } from './login/login.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { environment } from '../environments/environment';
+import { LoginServices } from './login/login.service';
+import { LoginGuardian } from './login/login-guardian.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [PersonasService, LogginService, DataService],
+  providers: [PersonasService, LogginService, DataService, LoginServices, LoginGuardian],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

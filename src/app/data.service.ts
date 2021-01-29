@@ -1,17 +1,20 @@
 import { Persona } from './persona.model';
+import { LoginServices } from './login/login.service';
 import { HttpClient } from'@angular/common/http';
 import { Injectable } from'@angular/core';
 
 @Injectable()
 export class DataService{
-    constructor(private httpClient: HttpClient){}
+    constructor(private httpClient: HttpClient, private loginService: LoginServices){}
 
     obtenerPersonas() {
-        return this.httpClient.get('https://listado-personas-101b4-default-rtdb.firebaseio.com/datos.json');
+        const token = this.loginService.getIdToken();
+        return this.httpClient.get('https://listado-personas-101b4-default-rtdb.firebaseio.com/datos.json?auth=' + token);
     }
 
     guardarPersonas(personas: Persona[]) {
-        this.httpClient.put('https://listado-personas-101b4-default-rtdb.firebaseio.com/datos.json', personas)
+        const token = this.loginService.getIdToken();
+        this.httpClient.put('https://listado-personas-101b4-default-rtdb.firebaseio.com/datos.json?=auth=' + token, personas)
         .subscribe(
             response => {
                 console.log('Resultado de ingresar las personas: ' + response);
@@ -23,8 +26,9 @@ export class DataService{
     }
 
     modificarPersona(index: number, persona: Persona) {
+        const token = this.loginService.getIdToken();
         let url: string;
-        url = 'https://listado-personas-101b4-default-rtdb.firebaseio.com/datos/' + index + '.json';
+        url = 'https://listado-personas-101b4-default-rtdb.firebaseio.com/datos/' + index + '.json?auth=' + token;
         this.httpClient.put(url, persona)
         .subscribe(
             response => {
@@ -37,8 +41,9 @@ export class DataService{
     }
 
     eliminarPersona(index: number) {
+        const token = this.loginService.getIdToken();
         let url: string;
-        url = 'https://listado-personas-101b4-default-rtdb.firebaseio.com/datos/' + index + '.json';
+        url = 'https://listado-personas-101b4-default-rtdb.firebaseio.com/datos/' + index + '.json?auth=' + token;
         this.httpClient.delete(url)
         .subscribe(
             response => {

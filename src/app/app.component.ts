@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginServices } from './login/login.service';
 
 
 @Component({
@@ -9,10 +10,17 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   titulo = 'Listado de Personas';
 
-  constructor() {}
+  constructor(private loginService: LoginServices) {}
 
   ngOnInit(): void {
     
   }
+
+  isAutenticado() {
+    return this.loginService.isAutenticado();
+  }
   
+  salir() {
+    this.loginService.logout();
+  }
 }
